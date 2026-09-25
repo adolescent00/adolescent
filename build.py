@@ -19,5 +19,9 @@ else:
     html = re.sub(r'<script id="site-script">.*?</script>', lambda m: f'<script id="site-script">\n{js}\n</script>', html, flags=re.S)
 html = re.sub(r'src="(assets/logo\.png|data:image/png;base64,[A-Za-z0-9+/=]+)"', f'src="{logo}"', html)
 html = html.replace('<link rel="preload" href="assets/logo.png" as="image">\n', '')
+# GitHub Pages project sites are served below /adolescent. Keep demo links
+# relative to the repository root instead of the domain root.
+html = html.replace('href="/demos/fitness/', 'href="./demos/fitness/')
+html = html.replace('href="/demos/"', 'href="./demos/"')
 (root / 'index.html').write_text(html)
 print('index.html built:', len(html), 'bytes')
